@@ -1,0 +1,142 @@
+# Supported Funding Models
+
+Specify usernames or project names for the following platforms:
+
+github: [GitHub Sponsors usernames (up to 4)]
+patreon: Patreon username
+open_collective: Open Collective username
+ko_fi: Ko-fi username
+tidelift: Tidelift platform-name/package-name (e.g., npm/babel)
+community_bridge: Community Bridge project-name (e.g., cloud-foundry)
+liberapay: Liberapay username
+issuehunt: IssueHunt username
+lfx_crowdfunding: LFX Crowdfunding project-name (e.g., cloud-foundry)
+polar: Polar username
+buy_me_a_coffee: Buy Me a Coffee username
+thanks_dev: thanks.dev username
+custom: [Custom sponsorship URLs (up to 4)]## Usage
+
+The funding information is located in the `.github/FUNDING.yml` file in your repository. If this file doesn't exist, you can create it.
+
+## Examples
+
+```yaml
+github: lovelace
+```
+
+```yaml
+github: [ lovelace, Turing ]
+```
+
+```yaml
+patreon: lovelace
+```
+
+```yaml
+open_collective: babel
+```
+
+```yaml
+ko_fi: lovelace
+```
+
+```yaml
+tidelift: npm/babel
+```
+
+```yaml
+community_bridge: cloud-foundry
+```
+
+```yaml
+liberapay: lovelace
+```
+
+```yaml
+issuehunt: lovelace
+```
+
+```yaml
+lfx_crowdfunding: cloud-foundry
+```
+
+```yaml
+polar: lovelace
+```
+
+```yaml
+buy_me_a_coffee: lovelace
+```
+
+```yaml
+thanks_dev: lovelace
+```
+
+```yaml
+custom: ['https://example.com/sponsor']
+```
+
+```yaml
+custom: ['https://example.com/sponsor-1', 'https://example.com/sponsor-2']
+```
+
+## Notes
+
+*   You can specify multiple usernames/project names for `github` and `custom`.
+*   The other platforms only support a single username/project name.
+*   The URLs for `custom` should be full URLs, including `https://` or `http://`.
+*   The order of items in the `github` and `custom` lists will be preserved.## Supported File Extensions
+
+The `.github/FUNDING.yml` file supports YAML syntax. Ensure your file adheres to the YAML specification for proper parsing. Common file extensions include `.yml` and `.yaml`.
+
+## Repository Location
+
+The `.github/FUNDING.yml` file should reside in the root directory of your repository or within the `.github` directory. If the file is placed in any other location, GitHub will not recognize it.
+
+## Display on GitHub
+
+Once the `.github/FUNDING.yml` file is correctly configured and placed in the appropriate location, a "Sponsor" button will appear on your repository's page (provided the repository is public). Clicking this button will direct users to the funding sources you've specified in the file.
+
+## Prioritization
+
+If multiple funding sources are provided, GitHub will display them in the following order:
+
+1.  GitHub Sponsors
+2.  Patreon
+3.  Open Collective
+4.  Ko-fi
+5.  Tidelift
+6.  Community Bridge
+7.  Liberapay
+8.  IssueHunt
+9.  LFX Crowdfunding
+10. Polar
+11. Buy Me a Coffee
+12. Thanks Dev
+13. Custom
+
+## Validation
+
+GitHub automatically validates the `.github/FUNDING.yml` file when it's created or updated. If any errors are detected, a warning message will be displayed, and the "Sponsor" button may not function correctly. Be sure to double-check your YAML syntax and ensure all usernames/project names are valid.
+
+## Contributing
+
+You can also use the FUNDING.yml file to point to other repositories that contribute to the project. For example, if your project is a meta-package that relies on other libraries, you can add their GitHub Sponsors usernames to your FUNDING.yml file, so that users who want to support your project can also support its dependencies.
+
+## Example with multiple entries
+
+```yaml
+github: [octocat, defunkt, mojombo]
+patreon: octocat
+open_collective: octocat
+ko_fi: octocat
+tidelift: npm/octocat
+community_bridge: octocat
+liberapay: octocat
+issuehunt: octocat
+lfx_crowdfunding: octocat
+polar: octocat
+buy_me_a_coffee: octocat
+thanks_dev: octocat
+custom: ['https://example.com/octocat', 'https://example.com/octocat2']
+```
