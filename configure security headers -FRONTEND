@@ -1,0 +1,48 @@
+
+
+    SERVER-LEVEL-HTTPS-SECURITY-HEADERS
+
+## Server-Level HTTP Security Headers
+
+### How It Works  
+If you’re hosting on NGINX, Apache, or a cloud load balancer, 
+configure security headers there—no code changes in Angular required.
+
+### NGINX  
+```nginx
+server {
+  listen 80;
+  server_name weather.example.com;
+
+  add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:;" always;
+  add_header X-Frame-Options "DENY" always;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+  location / {
+    root /var/www/weather-app;
+    try_files $uri $uri/ /index.html;
+  }
+}
+```
+
+### Resources  
+- OWASP Secure Headers Project: https://owasp.org/www-project-secure-headers/  
+- Mozilla Observability Tools: https://observatory.mozilla.org/  
+
+### Best Practices  
+- Always include `always` directive so headers are set on all responses (even errors).  
+- Test in multiple browsers and in report-only mode first.  
+- Monitor violations via reporting endpoints in CSP.  
+
+---
+
+# Summary of Best Practices
+
+1. Leverage **Angular’s built-in sanitization** and `DomSanitizer` for XSS.  
+2. Use **meta tags** (static or dynamic) to enforce CSP, HSTS, X-Frame-Options.  
+3. If using SSR (Angular Universal), install **Helmet** on the Express server.  
+4. For static hosting, configure **NGINX/Apache** or your **cloud load balancer** to set security headers.  
+5. Always start with **report-only** CSP, validate in browsers, then enforce.  
+6. Avoid hard-coding secrets or inline scripts—use nonces/hashes.  
+7. Test thoroughly in all deployment environments.
+
