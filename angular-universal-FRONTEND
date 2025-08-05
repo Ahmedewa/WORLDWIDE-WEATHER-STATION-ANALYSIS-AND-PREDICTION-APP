@@ -1,0 +1,99 @@
+      SERVER-SIDE-RENDERING[ANGULAR-UNIVERSAL]
+
+## 3. Server-Side Rendering (Angular Universal) + Express/Helmet
+
+### How It Works  
+If you use Angular Universal, your app is served from an Express server. 
+You can then install and configure Helmet exactly as in any Node/Express project.
+
+### Code  (`server.ts`)  
+```ts
+import 'zone.js/node';
+import express from 'express';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import helmet from 'helmet';
+import { join } from 'path';
+import { AppServerModule } from './src/main.server';
+
+const app = express();
+const DIST_FOLDER = join(process.cwd(), 'dist/your-app/browser');
+
+// Apply Helmet before any routes
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://cdn.example.com']
+      // ...other directives
+    }
+  },
+  hsts: { maxAge: 31536000, includeSubDomains: true }
+}));
+
+app.engine(
+  'html',
+  ngExpressEngine({ bootstrap: AppServerModule })
+);
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
+
+// Serve static files and Angular routes
+app.get('*.*', express.static(DIST_FOLDER));
+app.get('*', (req, res) => res.render('index', { req }));
+
+app.listen(4000, () => console.log('Server listening on http://localhost:4000'));
+```
+
+### Resources  
+- Angular Universal Guide: https://angular.io/guide/universal  
+- Helmet.js Docs: https://github.com/helmetjs/helmet  
+
+### Best Practices  
+- Configure Helmet early in middleware chain.  
+- Use only the headers you need—overly restrictive CSP can break legitimate features.  
+
+---
+
+## 4. Server-Level HTTP Security Headers
+
+### How It Works  
+If you’re hosting on NGINX, Apache, or a cloud load balancer, configure security headers there—no code changes in Angular required.
+
+### NGINX Example  
+```nginx
+server {
+  listen 80;
+  server_name weather.example.com;
+
+  add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:;" always;
+  add_header X-Frame-Options "DENY" always;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+  location / {
+    root /var/www/weather-app;
+    try_files $uri $uri/ /index.html;
+  }
+}
+```
+
+### Resources  
+- OWASP Secure Headers Project: https://owasp.org/www-project-secure-headers/  
+- Mozilla Observability Tools: https://observatory.mozilla.org/  
+
+### Best Practices  
+- Always include `always` directive so headers are set on all responses (even errors).  
+- Test in multiple browsers and in report-only mode first.  
+- Monitor violations via reporting endpoints in CSP.  
+
+---
+
+# Summary of Best Practices
+
+1. Leverage **Angular’s built-in sanitization** and `DomSanitizer` for XSS.  
+2. Use **meta tags** (static or dynamic) to enforce CSP, HSTS, X-Frame-Options.  
+3. If using SSR (Angular Universal), install **Helmet** on the Express server.  
+4. For static hosting, configure **NGINX/Apache** or your **cloud load balancer** to set security headers.  
+5. Always start with **report-only** CSP, validate in browsers, then enforce.  
+6. Avoid hard-coding secrets or inline scripts—use nonces/hashes.  
+7. Test thoroughly in all deployment environments.
+
