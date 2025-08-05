@@ -1,0 +1,57 @@
+              SECURITY HEADERS-FRONTEND[ ANGULAR]
+
+
+## 2. Injecting Security Headers via Meta Tags
+
+### How It Works  
+You can insert `<meta http-equiv>` tags in `index.html` or dynamically via Angular’s `Meta` service to enforce CSP, HSTS, X-Frame-Options, etc.
+
+### Code (Static in `index.html`)  
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' https://cdn.example.com; object-src 'none';">
+  <!-- Prevent Clickjacking -->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <!-- Force HTTPS -->
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+  <title>Worldwide Weather Station</title>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+```
+
+### Code(Dynamic in a Component)  
+```ts
+import { Component } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+
+@Component({ selector: 'app-root', template: `<router-outlet></router-outlet>` })
+export class AppComponent {
+  constructor(private meta: Meta) {
+    this.meta.addTag({
+      'http-equiv': 'Content-Security-Policy',
+      content: "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
+    });
+  }
+}
+```
+
+### Resources  
+- MDN CSP meta tag docs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/Using_Content-Security-Policy  
+- CSP Builder: https://csp.withgoogle.com/  
+
+### Best Practices  
+- Start in report-only mode to surface violations:  
+  `<meta http-equiv="Content-Security-Policy-Report-Only" …>`  
+- Avoid `'unsafe-inline'` where possible; use hashed or nonce’d scripts/styles.  
+- Regularly review your CSP with browser devtools’ Security panel.  
+
+---
+
