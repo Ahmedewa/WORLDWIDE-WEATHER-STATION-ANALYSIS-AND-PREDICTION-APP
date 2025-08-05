@@ -1,0 +1,54 @@
+        PASSPORT.JS[BACKEND SECURITY FOR AUTHENTICATION] 
+
+
+
+### **2. Passport.js (Backend Security for Authentication)**
+Passport.js simplifies **authentication** in Node.js applications and supports strategies like **OAuth 2.0**, **JWT**, and **RBAC**.
+
+#### **Implementation**
+1. **Install Passport.js and JWT Strategy**:
+   ```bash
+   npm install passport passport-jwt jsonwebtoken
+   ```
+
+2. **Configure Passport for JWT Authentication**:
+   ```javascript
+   const passport = require("passport");
+   const JwtStrategy = require("passport-jwt").Strategy;
+   const ExtractJwt = require("passport-jwt").ExtractJwt;
+
+   const options = {
+       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+       secretOrKey: "your_secret_key", // Use a strong, environment-protected secret
+   };
+
+   passport.use(
+       new JwtStrategy(options, (jwtPayload, done) => {
+           // Example: Find user by ID in database
+           User.findById(jwtPayload.id)
+               .then(user => {
+                   if (user) {
+                       return done(null, user);
+                   }
+                   return done(null, false);
+               })
+               .catch(err => done(err, false));
+       })
+   );
+   ```
+
+3. **Use Passport Middleware in Routes**:
+   ```javascript
+   const express = require("express");
+   const passport = require("passport");
+
+   const router = express.Router();
+
+   // Protected Route Example
+   router.get("/protected", passport.authenticate("jwt", { session: false }), (req, res) => {
+       res.json({ message: "Access Granted", user: req.user });
+   });
+
+   module.exports = router;
+   ```
+
