@@ -1,0 +1,25 @@
+        MULTI-CONTAINER DEPLOYMENT[FRONTEND & BACKEND] DEPLOYMENT
+
+
+### **1.4 Deployment**
+
+- **Dockerize the App**:
+  - Create Dockerfiles for both frontend and backend services.
+  - Use Docker Compose for multi-container deployment:
+    ```yaml
+    version: '3.8'
+    services:
+      frontend:
+        build: ./frontend
+        ports:
+          - '4200:80'
+      backend:
+        build: ./backend
+        ports:
+          - '3000:3000'
+    ```
+
+- **Deploy to AWS or Bit Cloud**.
+
+---
+
