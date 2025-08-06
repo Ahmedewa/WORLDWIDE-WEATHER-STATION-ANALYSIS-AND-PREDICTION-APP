@@ -1,0 +1,57 @@
+            ANGULAR + BOOTHSTRAP- FRONTEND DESIGN
+
+
+#### **Stage 1: Frontend Development**
+
+1. **Setup Angular App**:
+   ```bash
+   ng new weather-station-app
+   cd weather-station-app
+   npm install chart.js @angular/material @angular/google-maps
+   ```
+
+2. **Build Interactive Dashboard**:
+   - Use **Google Maps API** for area-based data visualization.
+   - Integrate **Chart.js** to display weather trends and historical data.
+
+ `dashboard.component.ts`:
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { Chart } from 'chart.js';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
+})
+export class DashboardComponent implements OnInit {
+  public weatherChart: any;
+
+  ngOnInit() {
+    this.weatherChart = new Chart('canvas', {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [
+          {
+            label: 'Temperature',
+            data: [30, 28, 25, 27, 26],
+            borderColor: '#FF5733',
+            fill: false
+          }
+        ]
+      }
+    });
+  }
+}
+```
+
+3. **Responsive Design**:
+   - Add **Angular Material** for UI components:
+     ```bash
+     ng add @angular/material
+     ```
+   - Use Material components like `mat-card`, `mat-table`, and `mat-toolbar` for a professional look.
+
+---
+
