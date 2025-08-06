@@ -1,0 +1,49 @@
+              HISTORICAL CLIMATE DATA ACCESS
+Historical climate data access for over 100 yeas, in order to predict abnormal 
+Catastropic weather events.
+
+
+
+## **3. Historical Climate Data Access**
+
+1. **Data Sources**:
+   - **NOAA GSOD**: [https://www.ncei.noaa.gov/](https://www.ncei.noaa.gov/)
+   - **NASA Satellite Data**: [https://earthdata.nasa.gov/](https://earthdata.nasa.gov/)
+
+2. **Accessing Records**:
+   - Fetch satellite data using NASA APIs:
+     ```python
+     import requests
+
+     response = requests.get(
+         'https://api.nasa.gov/planetary/apod',
+         params={'api_key': 'YOUR_API_KEY'}
+     )
+     print(response.json())
+     ```
+
+---
+
+## **Best Practices**
+
+1. **Optimize API Calls**:
+   - Use caching (Redis) to reduce API call frequency for real-time data.
+
+2. **Secure Environmental Variables**:
+   - Store API keys in `.env` and use secrets managers for production.
+
+3. **Scalable Infrastructure**:
+   - Use Kubernetes for container orchestration.
+
+4. **Data Cleaning**:
+   - Normalize and clean historical data before feeding it into models.
+
+---
+
+## **Resources**
+
+1. **OpenWeatherMap API Docs**: [https://openweathermap.org/api](https://openweathermap.org/api)  
+2. **NOAA Data Access**: [https://www.ncei.noaa.gov/](https://www.ncei.noaa.gov/)  
+3. **NASA Earth Data**: [https://earthdata.nasa.gov/](https://earthdata.nasa.gov/)  
+4. **OpenAI API Docs**: [https://beta.openai.com/docs/](https://beta.openai.com/docs/)  
+5. **TensorFlow Tutorials**: [https://www.tensorflow.org/tutorials](https://www.tensorflow.org/tutorials)  
