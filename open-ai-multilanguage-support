@@ -1,0 +1,31 @@
+             OPEN-AI- MULTI-LASNGUAGE-SUPPORT
+
+
+## **2. OpenAI Multi-Language Access**
+
+1. **Integrate OpenAI API**:
+   - Install OpenAI SDK:
+     ```bash
+     npm install openai
+     ```
+
+2. **Use OpenAI for Multi-Language Support**:
+   -  Translate weather data:
+     ```javascript
+     const { OpenAIApi, Configuration } = require('openai');
+
+     const configuration = new Configuration({
+       apiKey: process.env.OPENAI_API_KEY,
+     });
+     const openai = new OpenAIApi(configuration);
+
+     const translateWeatherData = async (text, targetLanguage) => {
+       const response = await openai.createCompletion({
+         model: 'text-davinci-003',
+         prompt: `Translate this text to ${targetLanguage}: ${text}`,
+         max_tokens: 100,
+       });
+       return response.data.choices[0].text.trim();
+     };
+     ```
+
